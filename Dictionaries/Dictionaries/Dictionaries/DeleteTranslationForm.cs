@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Dictionaries
+{
+    public partial class DeleteTranslationForm : Form
+    {
+        public DeleteTranslationForm()
+        {
+            InitializeComponent();
+            foreach (var i in Form1.MyDictionaries)
+                DictionariesComboBox.Items.Add(i.Name);
+        }
+
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            if (DictionariesComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Error: The dictionary is not selected");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(WordTextBox.Text))
+            {
+                MessageBox.Show("Error: You can't delete translation without entering a word");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(TranslationTextBox.Text))
+            {
+                MessageBox.Show("Error: You can't delete translation without entering it");
+                return;
+            }
+
+            for (int i = 0; i < Form1.MyDictionaries.Count; i++)
+            {
+                if (Form1.MyDictionaries[i].ContainsWord(WordTextBox.Text.ToLower()))
+                {
+                    for (int j = 0; i < Form1.MyDictionaries[i].dictionary.Count; j++)
+                    {
+                        if (Form1.MyDictionaries[i].dictionary[j].Word.ToLower() == WordTextBox.Text.ToLower())
+                        {
+                            if (Form1.MyDictionaries[i].dictionary[j].ContainsTranslation(TranslationTextBox.Text.ToLower()))
+                            {
+                                Form1.MyDictionaries[i].dictionary[j].Translations.Remove(TranslationTextBox.Text);
+                                Form1.SaveDictionary(Form1.MyDictionaries[i]);
+                                MessageBox.Show("The translation was successfully deleted from the dictionary");
+                                return;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Success: This translation is not in the dictionary anyway.");
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            MessageBox.Show("Success: This word is not in the dictionary anyway.");
+            return;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dictionary>
+	<name>
+		Eng-Rus
+	</name>
+	<Words>
+		<Word>
+			<word>Table</word>
+			<translations>
+				<translation>Стол</translation>
+				<translatio>Таблица</translatio>
+			</translations>
+		</Word>
+	</Words>
+</dictionary>
